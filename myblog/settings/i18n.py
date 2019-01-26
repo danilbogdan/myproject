@@ -9,7 +9,7 @@ from .common import PROJECT_ROOT, MIDDLEWARE
 
 # ##### INTERNATIONALIZATION ##############################
 
-LANGUAGE_CODE = 'de'
+LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Berlin'
 
 # Internationalization

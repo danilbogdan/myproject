@@ -1,4 +1,4 @@
-"""myblog URL Configuration
+"""blog URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/1.11/topics/http/urls/
@@ -19,4 +19,4 @@ urlpatterns = [
 
     # enable the admin interface
     url(r'^admin/', admin.site.urls),
-]
+    url(r'^blog/', include('apps.blog.urls')),]
