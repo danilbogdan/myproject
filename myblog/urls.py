@@ -6,17 +6,10 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 # Django imports
 from django.conf.urls import include, url
 from django.contrib import admin
-from django.contrib.auth import views as auth_views
+admin.autodiscover()
 
 urlpatterns = [
     # Examples:
-    # url(r'^blog/', include('blog.urls', namespace='blog')),
-
-    # provide the most basic login/logout functionality
-    url(r'^login/$', auth_views.login,
-        {'template_name': 'core/login.html'}, name='core_login'),
-    url(r'^logout/$', auth_views.logout, name='core_logout'),
-
-    # enable the admin interface
-    url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login/$', 'django.contrib.auth.views.login'),
+    url(r'^admin/', include(admin.site.urls)),
     url(r'^blog/', include('apps.blog.urls')),]
