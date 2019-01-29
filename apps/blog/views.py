@@ -7,22 +7,24 @@ from .models import Post
 from .forms import PostForm, CommentForm
 
 
-@user_passes_test(lambda u: u.is_superuser)
-def add_post(request):
-    form = PostForm(request.POST or None)
-    if form.is_valid():
-        post = form.save(commit=False)
-        post.author = request.user
-        post.save()
-        return redirect(post)
-    return render_to_response('blog/add_post.html',
-                              { 'form': form },
-                              context_instance=RequestContext(request))
 
-def view_post(request, slug):
+class AddPostView(TemplateView):
+    template_name = 'blog/add_post.html'
+
+    # @user_passes_test(lambda u: u.is_superuser)
+    def get(self, request, *args, **kwargs):
+        form = PostForm(request.POST or None)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect(post)
+        return render_to_response({ 'form': form })
+
 
 class BlogView(TemplateView):
     template_name = 'blog/blog.html'
+
 
 class PostView(TemplateView):
     template_name = 'blog/post.html'
@@ -35,10 +37,7 @@ class PostView(TemplateView):
             comment.post = post
             comment.save()
             return redirect(request.path)
-        return render_to_response('blog/post.html',
-                                  {
+        return render_to_response({
                                       'post': post,
                                       'form': form,
-                                  },
-                                  context_instance=RequestContext(request))
-class
+                                  })
