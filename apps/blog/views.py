@@ -1,17 +1,16 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import redirect, get_object_or_404
 from django.views.generic import TemplateView
-from django.contrib.auth.decorators import user_passes_test
-from django.shortcuts import redirect, render_to_response, get_object_or_404
-from django.template import RequestContext
 
-from .models import Post
 from .forms import PostForm, CommentForm
+from .models import Post
 
 
-
-class AddPostView(TemplateView):
+class AddPostView(LoginRequiredMixin, TemplateView):
     template_name = 'blog/add_post.html'
+    login_url = '/accounts/login/'
+    redirect_field_name = 'redirect_to'
 
-    # @user_passes_test(lambda u: u.is_superuser)
     def get(self, request, *args, **kwargs):
         form = PostForm(request.POST or None)
         if form.is_valid():
@@ -19,7 +18,7 @@ class AddPostView(TemplateView):
             post.author = request.user
             post.save()
             return redirect(post)
-        return render_to_response({ 'form': form })
+        return self.render_to_response({ 'form': form })
 
 
 class BlogView(TemplateView):
@@ -37,7 +36,7 @@ class PostView(TemplateView):
             comment.post = post
             comment.save()
             return redirect(request.path)
-        return render_to_response({
+        return self.render_to_response({
                                       'post': post,
                                       'form': form,
                                   })
