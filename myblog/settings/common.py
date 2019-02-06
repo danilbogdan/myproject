@@ -45,7 +45,8 @@ DEFAULT_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.blog'
+    'apps.blog',
+    'copyright'
 ]
 
 # Middlewares
@@ -127,3 +128,16 @@ except IOError:
             f.write(SECRET_KEY)
     except IOError:
         raise Exception('Could not open %s for writing!' % SECRET_FILE)
+
+
+# Copiright starting year
+COPY_START_YEAR = 2019
+
+TIME_INPUT_FORMATS = [
+    '%I:%M:%S %p',  # 6:22:44 PM
+    '%I:%M %p',  # 6:22 PM
+    '%I %p',  # 6 PM
+    '%H:%M:%S',     # '14:30:59'
+    '%H:%M:%S.%f',  # '14:30:59.000200'
+    '%H:%M',        # '14:30'
+]
